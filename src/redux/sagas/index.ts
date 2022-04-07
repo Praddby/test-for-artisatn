@@ -1,7 +1,7 @@
 import { all, spawn } from 'redux-saga/effects';
-import { productSaga } from './products';
+import { productsSaga } from './products';
 
 export function* rootSaga() {
-  const sagas = [productSaga];
+  const sagas = [productsSaga];
   yield all(sagas.map((s) => spawn(s)));
 }

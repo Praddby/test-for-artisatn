@@ -1,9 +1,8 @@
-import { filterProducts, getAllProducts, getProduct, getProducts, GET_ALL_PRODUCTS } from '../actions/products';
+import { filterProducts, FILTER_PRODUCT, getAllProducts, getProducts, GET_ALL_PRODUCTS } from '../actions/products';
 
 type Actions =
   | ReturnType<typeof getAllProducts>
   | ReturnType<typeof getProducts>
-  | ReturnType<typeof getProduct>
   | ReturnType<typeof filterProducts>;
 
 type File = {
@@ -31,7 +30,7 @@ type JsonNftData = {
 };
 
 export type Product = {
-  id: number;
+  product_id: number;
   name: string;
   description: string;
   quantity: number;
@@ -68,6 +67,21 @@ const initial: initProducts = {
 export const produtReducer = (state = initial, action: Actions) => {
   switch (action.type) {
     case GET_ALL_PRODUCTS: {
+      const products = action.payload;
+
+      return {
+        ...state,
+        allProducts: products,
+        products,
+      };
     }
+    case FILTER_PRODUCT: {
+      const check = action.payload;
+
+      return {
+        ...state,
+        products: state.allProducts.filter(product => check ? product.quantity_available > 0: product) };
+    }
+    default: return state;
   }
 };
